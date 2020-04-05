@@ -22,6 +22,7 @@ import BarGraph from "../components/BarGraph";
 import Switch from "../components/Switch";
 import { Provider, connect } from "react-redux";
 import { getTreeData, statusToggler } from "../modules/Trees";
+import { TreeData } from "../modules/Trees/Reducers";
 import { BarType } from "../modules/Trees/TreeModel";
 
 const width = Dimensions.get("screen").width;
@@ -29,34 +30,15 @@ const width = Dimensions.get("screen").width;
 interface Props {
   getTreeData(): void;
   statusToggler(status: boolean): void;
-  TreesData: {
-    loading: boolean;
-    showStatus: boolean;
-    data: {
-      yAxisValues: number[];
-      status: BarType[];
-      xAxisLabels: any[];
-    };
-  };
+  TreesData: TreeData;
 }
 
 @connect((state) => ({ TreesData: state.TreesData }), {
   getTreeData,
   statusToggler,
 })
-export default class App extends React.Component<
-  Props,
-  {
-    loading: boolean;
-    showStatus: boolean;
-    data: {
-      yAxisValues: number[];
-      status: BarType[];
-      xAxisLabels: string[];
-    };
-  }
-> {
-  componentDidMount() {
+export default class App extends React.Component<Props, TreeData> {
+  componentWillMount() {
     this.props.getTreeData();
   }
 

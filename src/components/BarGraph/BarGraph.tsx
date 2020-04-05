@@ -97,7 +97,7 @@ export default class BarGraph extends React.Component<BarGraphProperties> {
     if (points.length > 0) {
       svgPath = graph.svgPath(points);
     }
-    if (!loading) {
+    if (loading) {
       return (
         <View
           style={{

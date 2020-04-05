@@ -9,9 +9,9 @@ export class TreeData {
     status: BarType[];
     xAxisLabels: string[];
   } = {
-    yAxisValues: [],
-    status: [],
-    xAxisLabels: [],
+    yAxisValues: [20, 30],
+    status: ["Fair", "Good"],
+    xAxisLabels: ["b", "q"],
   };
 }
 
