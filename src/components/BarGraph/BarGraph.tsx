@@ -1,5 +1,5 @@
 import * as React from "react";
-import { View } from "react-native";
+import { View, ActionSheetIOS, ActivityIndicator } from "react-native";
 import Svg, { Circle, Rect, Pattern, Line, Path } from "react-native-svg";
 import { BarType } from "../../modules/Trees/TreeModel";
 import YAxisLabels from "./YAxisLabels";
@@ -34,6 +34,7 @@ export interface BarGraphProperties {
   yAxisValues: YAxisType;
   verticalPadding: number;
   status?: boolean;
+  loading?: boolean;
 }
 export type Point = number[];
 
@@ -45,6 +46,7 @@ export default class BarGraph extends React.Component<BarGraphProperties> {
       yAxisValues,
       status,
       xAxisLabels,
+      loading,
     } = this.props;
     const theme = UI.Colors;
     const yAxes: yAxis[] = [];
@@ -95,9 +97,24 @@ export default class BarGraph extends React.Component<BarGraphProperties> {
     if (points.length > 0) {
       svgPath = graph.svgPath(points);
     }
+    if (!loading) {
+      return (
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: "grey",
+            justifyContent: "center",
+            alignItems: "center",
+            width,
+            height,
+          }}>
+          <ActivityIndicator size="large" />
+        </View>
+      );
+    }
 
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, backgroundColor: "grey" }}>
         <View style={{ flexDirection: "row" }}>
           <YAxisLabels
             width={40}
@@ -107,10 +124,7 @@ export default class BarGraph extends React.Component<BarGraphProperties> {
             min={minYAxis}
             data={yData}
           />
-          <Svg
-            style={{ backgroundColor: "grey" }}
-            height={height}
-            width={width}>
+          <Svg height={height} width={width}>
             <Pattern
               id="RangePattern"
               patternUnits="userSpaceOnUse"
