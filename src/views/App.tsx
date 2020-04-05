@@ -35,6 +35,7 @@ interface Props {
     data: {
       yAxisValues: number[];
       status: BarType[];
+      xAxisLabels: any[];
     };
   };
 }
@@ -51,6 +52,7 @@ export default class App extends React.Component<
     data: {
       yAxisValues: number[];
       status: BarType[];
+      xAxisLabels: string[];
     };
   }
 > {
@@ -76,6 +78,7 @@ export default class App extends React.Component<
                 values: data.yAxisValues,
                 type: data.status,
               }}
+              xAxisLabels={data.xAxisLabels}
               verticalPadding={20}
             />
           </ScrollView>

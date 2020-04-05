@@ -7,9 +7,11 @@ export const getTreeData = () => {
     dispatch({ type: Types.TREE_DATA_LOADING });
     const yAxisValues = Data.map((item) => item.census_tract);
     const status = Data.map((item) => item.health);
+    const xAxisLabels = Data.map((item) => item.boroname);
     const payload = {
       yAxisValues,
       status,
+      xAxisLabels,
     };
     dispatch({ type: Types.TREE_DATA_SUCCESS, payload });
   };

@@ -7,9 +7,11 @@ export class TreeData {
   data: {
     yAxisValues: number[];
     status: BarType[];
+    xAxisLabels: string[];
   } = {
     yAxisValues: [],
     status: [],
+    xAxisLabels: [],
   };
 }
 

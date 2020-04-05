@@ -5,6 +5,7 @@ import { BarType } from "../../modules/Trees/TreeModel";
 import YAxisLabels from "./YAxisLabels";
 import Graph from "./Graph";
 import UI from "../../ui";
+import GraphXAxis from "./XAxisLabels";
 
 export interface BarGraphYData {
   start: number;
@@ -29,7 +30,7 @@ export interface BarGraphProperties {
   // value: number;
   height: number;
   width: number;
-  // xAxisLabels: TimelineData;
+  xAxisLabels: any[];
   yAxisValues: YAxisType;
   verticalPadding: number;
   status?: boolean;
@@ -38,7 +39,13 @@ export type Point = number[];
 
 export default class BarGraph extends React.Component<BarGraphProperties> {
   render() {
-    const { width, verticalPadding, yAxisValues, status } = this.props;
+    const {
+      width,
+      verticalPadding,
+      yAxisValues,
+      status,
+      xAxisLabels,
+    } = this.props;
     const theme = UI.Colors;
     const yAxes: yAxis[] = [];
     const yData: GraphYAxisData[] = [];
@@ -182,6 +189,7 @@ export default class BarGraph extends React.Component<BarGraphProperties> {
             })}
           </Svg>
         </View>
+        {xAxisLabels && <GraphXAxis data={xAxisLabels} />}
       </View>
     );
   }
