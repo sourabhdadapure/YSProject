@@ -21,6 +21,7 @@ import { Colors } from "react-native/Libraries/NewAppScreen";
 import BarGraph from "../components/BarGraph";
 import { Provider, connect } from "react-redux";
 import { getTreeData } from "../modules/Trees";
+import { BarType } from "../modules/Trees/TreeModel";
 
 const width = Dimensions.get("screen").width;
 
@@ -31,7 +32,7 @@ interface Props {
     showStatus: boolean;
     data: {
       yAxisValues: number[];
-      status: string[];
+      status: BarType[];
     };
   };
 }
@@ -44,7 +45,7 @@ export default class App extends React.Component<
     showStatus: boolean;
     data: {
       yAxisValues: number[];
-      status: string[];
+      status: BarType[];
     };
   }
 > {

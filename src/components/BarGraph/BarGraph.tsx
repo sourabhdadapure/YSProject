@@ -38,7 +38,8 @@ export type Point = number[];
 
 export default class BarGraph extends React.Component<BarGraphProperties> {
   render() {
-    const { width, verticalPadding, yAxisValues } = this.props;
+    const { width, verticalPadding, yAxisValues, status } = this.props;
+    const theme = UI.Colors;
     const yAxes: yAxis[] = [];
     const yData: GraphYAxisData[] = [];
     const graphYMax = Math.max.apply(null, yAxisValues.values);
@@ -140,7 +141,11 @@ export default class BarGraph extends React.Component<BarGraphProperties> {
                   rx={barWidth / 2}
                   width={barWidth}
                   height={h * height}
-                  fill={this.getColorFromType(yAxisValues.type[idx])}
+                  fill={
+                    status
+                      ? this.getColorFromType(yAxisValues.type[idx])
+                      : theme.Buttons.Primary
+                  }
                 />
               );
             })}
