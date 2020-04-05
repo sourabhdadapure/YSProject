@@ -188,7 +188,8 @@ export default class BarGraph extends React.Component<BarGraphProperties> {
         return theme.Status.Good;
       case "Fair":
         return theme.Status.Fair;
+      default:
+        return theme.Buttons.Primary;
     }
-    return theme.Buttons.Primary;
   }
 }
