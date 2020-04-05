@@ -19,14 +19,16 @@ import {
 
 import { Colors } from "react-native/Libraries/NewAppScreen";
 import BarGraph from "../components/BarGraph";
+import Switch from "../components/Switch";
 import { Provider, connect } from "react-redux";
-import { getTreeData } from "../modules/Trees";
+import { getTreeData, statusToggler } from "../modules/Trees";
 import { BarType } from "../modules/Trees/TreeModel";
 
 const width = Dimensions.get("screen").width;
 
 interface Props {
   getTreeData(): void;
+  statusToggler(status: boolean): void;
   TreesData: {
     loading: boolean;
     showStatus: boolean;
@@ -37,7 +39,10 @@ interface Props {
   };
 }
 
-@connect((state) => ({ TreesData: state.TreesData }), { getTreeData })
+@connect((state) => ({ TreesData: state.TreesData }), {
+  getTreeData,
+  statusToggler,
+})
 export default class App extends React.Component<
   Props,
   {
@@ -54,7 +59,8 @@ export default class App extends React.Component<
   }
 
   render() {
-    const { data } = this.props.TreesData;
+    const { data, showStatus } = this.props.TreesData;
+    const { statusToggler } = this.props;
     return (
       <React.Fragment>
         <StatusBar barStyle="dark-content" />
@@ -63,6 +69,7 @@ export default class App extends React.Component<
             contentInsetAdjustmentBehavior="automatic"
             style={styles.scrollView}>
             <BarGraph
+              status={showStatus}
               height={500}
               width={width - 40}
               yAxisValues={{
@@ -72,6 +79,11 @@ export default class App extends React.Component<
               verticalPadding={20}
             />
           </ScrollView>
+          <Switch
+            status={showStatus}
+            title="Tree Health"
+            onChange={() => statusToggler(showStatus)}
+          />
         </SafeAreaView>
       </React.Fragment>
     );
