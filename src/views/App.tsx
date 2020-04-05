@@ -24,10 +24,30 @@ import {
   DebugInstructions,
   ReloadInstructions,
 } from "react-native/Libraries/NewAppScreen";
+import BarGraph from "../components/BarGraph";
+import { Data } from "../modules/TreesData";
 
 const width = Dimensions.get("screen").width;
 export default class App extends React.Component {
+  state = {
+    yAxisValues: [],
+    xAxisLabels: [],
+    barType: [],
+  };
+  componentDidMount() {
+    const xAxisLabels = Data.map((item) => item.boroname[0]);
+    const yAxisValues = Data.map((item) => parseInt(item.census_tract) / 10);
+    const barType = Data.map((item) => item.health);
+
+    this.setState({
+      xAxisLabels,
+      yAxisValues,
+      barType,
+    });
+  }
+
   render() {
+    const { xAxisLabels, yAxisValues, barType } = this.state;
     return (
       <React.Fragment>
         <StatusBar barStyle="dark-content" />
@@ -35,7 +55,15 @@ export default class App extends React.Component {
           <ScrollView
             contentInsetAdjustmentBehavior="automatic"
             style={styles.scrollView}>
-            <Header />
+            <BarGraph
+              height={500}
+              width={width - 40}
+              yAxisValues={{
+                values: yAxisValues,
+                type: barType,
+              }}
+              verticalPadding={20}
+            />
           </ScrollView>
         </SafeAreaView>
       </React.Fragment>
