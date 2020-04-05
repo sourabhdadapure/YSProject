@@ -20,7 +20,10 @@ export const Colors = {
     Black: "#000000",
     Blue: "#5289fe",
   },
-
+  Status: {
+    Fair: "#5289fe",
+    Good: "#59AF4F",
+  },
   Labels: {
     White: "#ffffff",
     Gray: "#98A0B4",

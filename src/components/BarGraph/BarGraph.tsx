@@ -3,6 +3,7 @@ import { View } from "react-native";
 import Svg, { Circle, Rect, Pattern, Line, Path } from "react-native-svg";
 import YAxisLabels from "./YAxisLabels";
 import Graph from "./Graph";
+import UI from "../../ui";
 
 export interface BarGraphYData {
   start: number;
@@ -18,7 +19,7 @@ export interface yAxis {
   end?: number;
 }
 
-export type BarType = "fair" | "good";
+export type BarType = "Good" | "Fair";
 
 export interface YAxisType {
   values: number[];
@@ -32,6 +33,7 @@ export interface BarGraphProperties {
   // xAxisLabels: TimelineData;
   yAxisValues: YAxisType;
   verticalPadding: number;
+  status?: boolean;
 }
 export type Point = number[];
 
@@ -139,7 +141,7 @@ export default class BarGraph extends React.Component<BarGraphProperties> {
                   rx={barWidth / 2}
                   width={barWidth}
                   height={h * height}
-                  fill={"blue"}
+                  fill={this.getColorFromType(yAxisValues.type[idx])}
                 />
               );
             })}
@@ -178,5 +180,15 @@ export default class BarGraph extends React.Component<BarGraphProperties> {
         </View>
       </View>
     );
+  }
+  private getColorFromType(type: BarType) {
+    const theme = UI.Colors;
+    switch (type) {
+      case "Good":
+        return theme.Status.Good;
+      case "Fair":
+        return theme.Status.Fair;
+    }
+    return theme.Buttons.Primary;
   }
 }
