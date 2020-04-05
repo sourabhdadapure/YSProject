@@ -17,37 +17,50 @@ import {
   StatusBar,
 } from "react-native";
 
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from "react-native/Libraries/NewAppScreen";
+import { Colors } from "react-native/Libraries/NewAppScreen";
 import BarGraph from "../components/BarGraph";
-import { Data } from "../modules/TreesData";
+import Switch from "../components/Switch";
+import { Provider, connect } from "react-redux";
+import { getTreeData, statusToggler } from "../modules/Trees";
+import { BarType } from "../modules/Trees/TreeModel";
 
 const width = Dimensions.get("screen").width;
-export default class App extends React.Component {
-  state = {
-    yAxisValues: [],
-    xAxisLabels: [],
-    barType: [],
-  };
-  componentDidMount() {
-    const xAxisLabels = Data.map((item) => item.boroname[0]);
-    const yAxisValues = Data.map((item) => parseInt(item.census_tract) / 10);
-    const barType = Data.map((item) => item.health);
 
-    this.setState({
-      xAxisLabels,
-      yAxisValues,
-      barType,
-    });
+interface Props {
+  getTreeData(): void;
+  statusToggler(status: boolean): void;
+  TreesData: {
+    loading: boolean;
+    showStatus: boolean;
+    data: {
+      yAxisValues: number[];
+      status: BarType[];
+    };
+  };
+}
+
+@connect((state) => ({ TreesData: state.TreesData }), {
+  getTreeData,
+  statusToggler,
+})
+export default class App extends React.Component<
+  Props,
+  {
+    loading: boolean;
+    showStatus: boolean;
+    data: {
+      yAxisValues: number[];
+      status: BarType[];
+    };
+  }
+> {
+  componentDidMount() {
+    this.props.getTreeData();
   }
 
   render() {
-    const { xAxisLabels, yAxisValues, barType } = this.state;
+    const { data, showStatus } = this.props.TreesData;
+    const { statusToggler } = this.props;
     return (
       <React.Fragment>
         <StatusBar barStyle="dark-content" />
@@ -56,15 +69,21 @@ export default class App extends React.Component {
             contentInsetAdjustmentBehavior="automatic"
             style={styles.scrollView}>
             <BarGraph
+              status={showStatus}
               height={500}
               width={width - 40}
               yAxisValues={{
-                values: yAxisValues,
-                type: barType,
+                values: data.yAxisValues,
+                type: data.status,
               }}
               verticalPadding={20}
             />
           </ScrollView>
+          <Switch
+            status={showStatus}
+            title="Tree Health"
+            onChange={() => statusToggler(showStatus)}
+          />
         </SafeAreaView>
       </React.Fragment>
     );

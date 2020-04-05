@@ -1,6 +1,7 @@
 import * as React from "react";
 import { View } from "react-native";
 import Svg, { Circle, Rect, Pattern, Line, Path } from "react-native-svg";
+import { BarType } from "../../modules/Trees/TreeModel";
 import YAxisLabels from "./YAxisLabels";
 import Graph from "./Graph";
 import UI from "../../ui";
@@ -18,8 +19,6 @@ export interface yAxis {
   start: number;
   end?: number;
 }
-
-export type BarType = "Good" | "Fair";
 
 export interface YAxisType {
   values: number[];
@@ -39,7 +38,8 @@ export type Point = number[];
 
 export default class BarGraph extends React.Component<BarGraphProperties> {
   render() {
-    const { width, verticalPadding, yAxisValues } = this.props;
+    const { width, verticalPadding, yAxisValues, status } = this.props;
+    const theme = UI.Colors;
     const yAxes: yAxis[] = [];
     const yData: GraphYAxisData[] = [];
     const graphYMax = Math.max.apply(null, yAxisValues.values);
@@ -141,7 +141,11 @@ export default class BarGraph extends React.Component<BarGraphProperties> {
                   rx={barWidth / 2}
                   width={barWidth}
                   height={h * height}
-                  fill={this.getColorFromType(yAxisValues.type[idx])}
+                  fill={
+                    status
+                      ? this.getColorFromType(yAxisValues.type[idx])
+                      : theme.Buttons.Primary
+                  }
                 />
               );
             })}
@@ -188,7 +192,8 @@ export default class BarGraph extends React.Component<BarGraphProperties> {
         return theme.Status.Good;
       case "Fair":
         return theme.Status.Fair;
+      default:
+        return theme.Buttons.Primary;
     }
-    return theme.Buttons.Primary;
   }
 }

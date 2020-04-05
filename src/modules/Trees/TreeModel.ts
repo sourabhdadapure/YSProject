@@ -48,4 +48,6 @@ export type TreeDataItem = {
   bbl: string;
 };
 
+export type BarType = "Good" | "Fair";
+
 export const TreeDataSet: TreeDataItem[] = Data;
