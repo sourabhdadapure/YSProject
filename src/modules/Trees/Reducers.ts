@@ -1,14 +1,25 @@
 import Types from "./Types";
 
-export type colors = "red" | "blue" | "green";
-
-class TreeData {
+import { BarType } from "./TreeModel";
+export class TreeData {
   loading: boolean = false;
-  data: Object = {};
+  showStatus: boolean = false;
+  data: {
+    yAxisValues: number[];
+    status: BarType[];
+  } = {
+    yAxisValues: [],
+    status: [],
+  };
 }
 
 export default function (state = TreeData, action: any) {
   switch (action.type) {
+    case Types.TREE_SHOW_STATUS_TOGGLER:
+      return {
+        ...state,
+        showStatus: action.payload,
+      };
     case Types.TREE_DATA_LOADING: {
       return {
         ...state,

@@ -1,6 +1,7 @@
 import * as React from "react";
 import { View } from "react-native";
 import Svg, { Circle, Rect, Pattern, Line, Path } from "react-native-svg";
+import { BarType } from "../../modules/Trees/TreeModel";
 import YAxisLabels from "./YAxisLabels";
 import Graph from "./Graph";
 import UI from "../../ui";
@@ -18,8 +19,6 @@ export interface yAxis {
   start: number;
   end?: number;
 }
-
-export type BarType = "Good" | "Fair";
 
 export interface YAxisType {
   values: number[];

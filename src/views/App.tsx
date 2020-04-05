@@ -17,37 +17,43 @@ import {
   StatusBar,
 } from "react-native";
 
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from "react-native/Libraries/NewAppScreen";
+import { Colors } from "react-native/Libraries/NewAppScreen";
 import BarGraph from "../components/BarGraph";
-import { Data } from "../modules/TreesData";
+import { Provider, connect } from "react-redux";
+import { getTreeData } from "../modules/Trees";
 
 const width = Dimensions.get("screen").width;
-export default class App extends React.Component {
-  state = {
-    yAxisValues: [],
-    xAxisLabels: [],
-    barType: [],
-  };
-  componentDidMount() {
-    const xAxisLabels = Data.map((item) => item.boroname[0]);
-    const yAxisValues = Data.map((item) => parseInt(item.census_tract) / 10);
-    const barType = Data.map((item) => item.health);
 
-    this.setState({
-      xAxisLabels,
-      yAxisValues,
-      barType,
-    });
+interface Props {
+  getTreeData(): void;
+  TreesData: {
+    loading: boolean;
+    showStatus: boolean;
+    data: {
+      yAxisValues: number[];
+      status: string[];
+    };
+  };
+}
+
+@connect((state) => ({ TreesData: state.TreesData }), { getTreeData })
+export default class App extends React.Component<
+  Props,
+  {
+    loading: boolean;
+    showStatus: boolean;
+    data: {
+      yAxisValues: number[];
+      status: string[];
+    };
+  }
+> {
+  componentDidMount() {
+    this.props.getTreeData();
   }
 
   render() {
-    const { xAxisLabels, yAxisValues, barType } = this.state;
+    const { data } = this.props.TreesData;
     return (
       <React.Fragment>
         <StatusBar barStyle="dark-content" />
@@ -59,8 +65,8 @@ export default class App extends React.Component {
               height={500}
               width={width - 40}
               yAxisValues={{
-                values: yAxisValues,
-                type: barType,
+                values: data.yAxisValues,
+                type: data.status,
               }}
               verticalPadding={20}
             />
