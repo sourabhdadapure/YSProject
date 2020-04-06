@@ -17,9 +17,11 @@ export const getTreeData = () => {
       yAxisValues,
       status,
       xAxisLabels,
+      filter: "None",
     };
     dispatch({ type: Types.TREE_DATA_SUCCESS, payload });
   };
+  return;
 };
 
 export const statusToggler = (showStatus: boolean) => {
