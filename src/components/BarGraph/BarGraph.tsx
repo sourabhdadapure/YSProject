@@ -6,6 +6,7 @@ import YAxisLabels from "./YAxisLabels";
 import Graph from "./Graph";
 import UI from "../../ui";
 import GraphXAxis from "./XAxisLabels";
+import Utils from "../../utils";
 
 export interface BarGraphYData {
   start: number;
@@ -53,16 +54,11 @@ export default class BarGraph extends React.Component<BarGraphProperties> {
     const yData: GraphYAxisData[] = [];
     const graphYMax = Math.max.apply(null, yAxisValues.values);
     const graphYMin = Math.min.apply(null, yAxisValues.values);
-    const maxYAxis =
-      Math.ceil(graphYMax / 20) * 20 <= 20
-        ? 80
-        : Math.ceil(graphYMax / 20) * 20;
-    const minYAxis =
-      Math.floor(graphYMin / 20) * 20 <= 20
-        ? 0
-        : Math.floor(graphYMin / 20) * 20;
+    const maxYAxis = Utils.getMax(graphYMax);
+    const minYAxis = Utils.getMin(graphYMin);
+    const delta = Utils.getDelta(maxYAxis);
 
-    for (let i = minYAxis; i <= maxYAxis; i += 20) {
+    for (let i = minYAxis; i <= maxYAxis; i += 20 * delta) {
       yAxes.push({
         start: i,
       });
