@@ -1,6 +1,6 @@
 import * as React from "react";
 import { View, ActionSheetIOS, ActivityIndicator } from "react-native";
-import Svg, { Circle, Rect, Pattern, Line, Path } from "react-native-svg";
+import Svg, { Circle, Rect, Pattern, Line, Path, Text } from "react-native-svg";
 import { BarType } from "../../modules/Trees/TreeModel";
 import YAxisLabels from "./YAxisLabels";
 import Graph from "./Graph";
@@ -118,13 +118,13 @@ export default class BarGraph extends React.Component<BarGraphProperties> {
         <View style={{ flexDirection: "row" }}>
           <YAxisLabels
             width={40}
-            height={height}
+            height={height + 30}
             verticalPadding={10}
             max={maxYAxis}
             min={minYAxis}
             data={yData}
           />
-          <Svg height={height} width={width}>
+          <Svg height={height + 70} width={width}>
             <Pattern
               id="RangePattern"
               patternUnits="userSpaceOnUse"
@@ -155,19 +155,35 @@ export default class BarGraph extends React.Component<BarGraphProperties> {
                 //   strokeWidth={2}
                 //   fill="pink" //TODO: update later
                 // />
-                <Rect
-                  key={"bar-" + idx}
-                  x={idx * xStepSize + (xStepSize - barWidth) / 2}
-                  y={y}
-                  rx={barWidth / 2}
-                  width={barWidth}
-                  height={h * height}
-                  fill={
-                    status
-                      ? this.getColorFromType(yAxisValues.type[idx])
-                      : theme.Buttons.Primary
-                  }
-                />
+                <React.Fragment key={idx}>
+                  <Rect
+                    x={idx * xStepSize + (xStepSize - barWidth) / 2}
+                    y={y}
+                    rx={barWidth / 2}
+                    width={barWidth}
+                    height={h * height}
+                    fill={
+                      status
+                        ? this.getColorFromType(yAxisValues.type[idx])
+                        : theme.Buttons.Primary
+                    }
+                  />
+                  <Text
+                    fill="black"
+                    stroke="none"
+                    fontSize="13"
+                    fontWeight="bold"
+                    textAnchor="middle"
+                    transform={{
+                      rotation: -60,
+                      originX: idx * xStepSize + (xStepSize - barWidth) / 2,
+                      originY: height + 50,
+                    }}
+                    x={idx * xStepSize + (xStepSize - barWidth) / 2}
+                    y={height + 50}>
+                    {xAxisLabels[idx]}
+                  </Text>
+                </React.Fragment>
               );
             })}
 
@@ -203,7 +219,6 @@ export default class BarGraph extends React.Component<BarGraphProperties> {
             })}
           </Svg>
         </View>
-        {xAxisLabels && <GraphXAxis data={xAxisLabels} />}
       </View>
     );
   }
