@@ -21,30 +21,33 @@ import { Colors } from "react-native/Libraries/NewAppScreen";
 import BarGraph from "../components/BarGraph";
 import Switch from "../components/Switch";
 import { Provider, connect } from "react-redux";
-import { getTreeData, statusToggler } from "../modules/Trees";
+import { getTreeData, statusToggler, applyFilter } from "../modules/Trees";
 import { TreeData } from "../modules/Trees/Reducers";
-import { BarType } from "../modules/Trees/TreeModel";
+import { BarType, BoroughType } from "../modules/Trees/TreeModel";
+import Picker from "../components/Picker";
 
 const width = Dimensions.get("screen").width;
 
 interface Props {
   getTreeData(): void;
+  applyFilter(selectedFilter: BoroughType): void;
   statusToggler(status: boolean): void;
   TreesData: TreeData;
 }
 
-@connect((state) => ({ TreesData: state.TreesData }), {
+@connect((state) => ({ TreesData: state.TreesData, applyFilter }), {
   getTreeData,
   statusToggler,
+  applyFilter,
 })
 export default class App extends React.Component<Props, TreeData> {
-  componentWillMount() {
-    this.props.getTreeData();
+  async componentDidMount() {
+    await this.props.getTreeData();
   }
 
   render() {
-    const { data, showStatus } = this.props.TreesData;
-    const { statusToggler } = this.props;
+    const { data, showStatus, selectedFilter } = this.props.TreesData;
+    const { statusToggler, applyFilter } = this.props;
     return (
       <React.Fragment>
         <StatusBar barStyle="dark-content" />
@@ -57,8 +60,8 @@ export default class App extends React.Component<Props, TreeData> {
               height={500}
               width={width - 40}
               yAxisValues={{
-                values: data.yAxisValues,
-                type: data.status,
+                values:data&& data.yAxisValues,
+                type:data&& data.status,
               }}
               xAxisLabels={data.xAxisLabels}
               verticalPadding={20}
@@ -68,6 +71,22 @@ export default class App extends React.Component<Props, TreeData> {
             status={showStatus}
             title="Tree Health"
             onChange={() => statusToggler(showStatus)}
+          />
+          <Picker
+            title="Filter By Boroughs"
+            selectedValue={selectedFilter}
+            onChange={(val) => {
+              console.warn(selectedFilter);
+              applyFilter(val);
+            }}
+            pickerItems={[
+              "None",
+              "Queens",
+              "Brooklyn",
+              "The Bronx",
+              "Staten Island",
+              "Manhattan",
+            ]}
           />
         </SafeAreaView>
       </React.Fragment>

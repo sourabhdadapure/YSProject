@@ -48,6 +48,13 @@ export type TreeDataItem = {
   bbl: string;
 };
 
+export type BoroughType =
+  | "Queens"
+  | "Brooklyn"
+  | "The Bronx"
+  | "Staten Island"
+  | "Manhattan";
+
 export type BarType = "Good" | "Fair";
 
 export const TreeDataSet: TreeDataItem[] = Data;

@@ -1,6 +1,6 @@
 import Types from "./Types";
 
-import { BarType } from "./TreeModel";
+import { BarType, BoroughType } from "./TreeModel";
 export class TreeData {
   loading: boolean = false;
   showStatus: boolean = false;
@@ -13,6 +13,7 @@ export class TreeData {
     status: ["Fair", "Good"],
     xAxisLabels: ["b", "q"],
   };
+  selectedFilter?: BoroughType;
 }
 
 export default function (state = TreeData, action: any) {

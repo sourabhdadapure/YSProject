@@ -1,24 +1,27 @@
 import * as React from "react";
-import { View, Picker } from "react-native";
+import { View, Picker, Text } from "react-native";
 
 interface AppProperties {
+  title: string;
   selectedValue: string;
   onChange(val: any): void;
-  pickerItems: string[];
+  pickerItems: any[];
 }
 
 export default class App extends React.Component<AppProperties> {
   render() {
-    const { selectedValue, onChange, pickerItems } = this.props;
+    const { selectedValue, onChange, pickerItems, title } = this.props;
     return (
-      <Picker
-        selectedValue={selectedValue}
-        style={{ height: 50, width: 150 }}
-        onValueChange={(itemValue, itemIndex) => onChange(itemValue)}>
-        {pickerItems.map((item, idx) => (
-          <Picker.Item key={idx} label={item} value={item} />
-        ))}
-      </Picker>
+      <View>
+        <Text style={{ textAlign: "center" }}>{title}</Text>
+        <Picker
+          selectedValue={selectedValue}
+          onValueChange={(itemValue, itemIndex) => onChange(itemValue)}>
+          {pickerItems.map((item, idx) => (
+            <Picker.Item key={idx} label={item} value={item} />
+          ))}
+        </Picker>
+      </View>
     );
   }
 }
