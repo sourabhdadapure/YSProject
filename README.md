@@ -3,7 +3,7 @@
 <H2>Components</H2>
 <H3>Built my Own custom Graph to display data</H3>
 
-* Created dynamic graph from using svg
+* Created dynamic graph using svg
 * Graph can scale depending on the data 
 * Scrollable and interactive ( can toggle b/w the health of the tree and use filters ) 
  
