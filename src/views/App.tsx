@@ -56,25 +56,20 @@ export default class App extends React.Component<Props, TreeData> {
       <View style={{ backgroundColor: theme.Background.Dark }}>
         <StatusBar barStyle="dark-content" />
         <SafeAreaView>
-          <ScrollView
-            contentInsetAdjustmentBehavior="automatic"
-            style={styles.scrollView}>
-            <BarGraph
-              status={showStatus}
-              height={500}
-              width={width}
-              yAxisValues={{
-                values: yAxisValues,
-                type: status,
-              }}
-              xAxisLabels={xAxisLabels}
-              verticalPadding={20}
-            />
-          </ScrollView>
+          <BarGraph
+            status={showStatus}
+            height={500}
+            width={width}
+            yAxisValues={{
+              values: yAxisValues,
+              type: status,
+            }}
+            xAxisLabels={xAxisLabels}
+            verticalPadding={20}
+          />
           <View
             style={{
               flexDirection: "row",
-              alignSelf: "center",
               marginHorizontal: 10,
             }}>
             <Switch
