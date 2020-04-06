@@ -1,11 +1,16 @@
 import * as React from "react";
-import { View, ActionSheetIOS, ActivityIndicator } from "react-native";
-import Svg, { Circle, Rect, Pattern, Line, Path } from "react-native-svg";
+import {
+  View,
+  ActionSheetIOS,
+  ActivityIndicator,
+  ScrollView,
+} from "react-native";
+import Svg, { Circle, Rect, Pattern, Line, Path, Text } from "react-native-svg";
 import { BarType } from "../../modules/Trees/TreeModel";
 import YAxisLabels from "./YAxisLabels";
 import Graph from "./Graph";
 import UI from "../../ui";
-import GraphXAxis from "./XAxisLabels";
+import Utils from "../../utils";
 
 export interface BarGraphYData {
   start: number;
@@ -53,16 +58,11 @@ export default class BarGraph extends React.Component<BarGraphProperties> {
     const yData: GraphYAxisData[] = [];
     const graphYMax = Math.max.apply(null, yAxisValues.values);
     const graphYMin = Math.min.apply(null, yAxisValues.values);
-    const maxYAxis =
-      Math.ceil(graphYMax / 20) * 20 <= 20
-        ? 80
-        : Math.ceil(graphYMax / 20) * 20;
-    const minYAxis =
-      Math.floor(graphYMin / 20) * 20 <= 20
-        ? 0
-        : Math.floor(graphYMin / 20) * 20;
+    const maxYAxis = Utils.getMax(graphYMax);
+    const minYAxis = Utils.getMin(graphYMin);
+    const delta = Utils.getDelta(maxYAxis);
 
-    for (let i = minYAxis; i <= maxYAxis; i += 20) {
+    for (let i = minYAxis; i <= maxYAxis; i += 20 * delta) {
       yAxes.push({
         start: i,
       });
@@ -75,11 +75,10 @@ export default class BarGraph extends React.Component<BarGraphProperties> {
     const pad = verticalPadding !== undefined ? this.props.verticalPadding : 5;
     const height = this.props.height - pad * 2;
     const yTotal = maxYAxis - minYAxis;
-    const xStepSize = width / yAxisValues.values.length - 0.5;
-
+    const xStepSize = 25;
     const lineColor = "blue"; //TODO: update later
     const lineOpacity = 0.5;
-    const barWidth = 3;
+    const barWidth = 5;
     let svgPath;
     let graph = new Graph();
     let points: Point[] = [];
@@ -114,60 +113,65 @@ export default class BarGraph extends React.Component<BarGraphProperties> {
     }
 
     return (
-      <View style={{ flex: 1, backgroundColor: "grey" }}>
-        <View style={{ flexDirection: "row" }}>
-          <YAxisLabels
-            width={40}
-            height={height}
-            verticalPadding={10}
-            max={maxYAxis}
-            min={minYAxis}
-            data={yData}
-          />
-          <Svg height={height} width={width}>
+      <View
+        style={{ flexDirection: "row", width: 600, backgroundColor: "grey" }}>
+        <YAxisLabels
+          width={40}
+          height={height + 30}
+          verticalPadding={10}
+          max={maxYAxis}
+          min={minYAxis}
+          data={yData}
+        />
+        <ScrollView
+          horizontal
+          stickyHeaderIndices={[0]}
+          style={{
+            flex: 1,
+
+            paddingRight: 200,
+          }}>
+          <Svg height={height + 80} width={width + 500}>
             <Pattern
               id="RangePattern"
               patternUnits="userSpaceOnUse"
               x="-10"
               y="-10"
               width="10"
-              height="10">
-              {/* {svgPath && (
-                <Path
-                  stroke="yellow" //TODO: update later
-                  opacity={1}
-                  strokeWidth={1.5}
-                  fill="transparent"
-                  d={svgPath}
-                />
-              )} */}
-            </Pattern>
+              height="10"></Pattern>
             {yAxisValues.values.map((item, idx) => {
               const h = Math.max((item - minYAxis) / yTotal, 0.01);
               const y = pad + (1 - h) * height;
               return (
-                // <Circle
-                //   key={"bar-" + idx}
-                //   x={idx * xStepSize + (xStepSize - barWidth) / 2}
-                //   y={y}
-                //   r={barWidth}
-                //   stroke="orange" //TODO: update later
-                //   strokeWidth={2}
-                //   fill="pink" //TODO: update later
-                // />
-                <Rect
-                  key={"bar-" + idx}
-                  x={idx * xStepSize + (xStepSize - barWidth) / 2}
-                  y={y}
-                  rx={barWidth / 2}
-                  width={barWidth}
-                  height={h * height}
-                  fill={
-                    status
-                      ? this.getColorFromType(yAxisValues.type[idx])
-                      : theme.Buttons.Primary
-                  }
-                />
+                <React.Fragment key={idx}>
+                  <Rect
+                    x={idx * xStepSize + (xStepSize - barWidth) / 2}
+                    y={y}
+                    rx={barWidth / 2}
+                    width={barWidth}
+                    height={h * height}
+                    fill={
+                      status
+                        ? this.getColorFromType(yAxisValues.type[idx])
+                        : theme.Buttons.Primary
+                    }
+                  />
+                  <Text
+                    fill="black"
+                    stroke="none"
+                    fontSize="10"
+                    fontWeight="bold"
+                    textAnchor="middle"
+                    transform={{
+                      rotation: -70,
+                      originX: idx * xStepSize + (xStepSize - barWidth) / 2 + 5,
+                      originY: height + 50,
+                    }}
+                    x={idx * xStepSize + (xStepSize - barWidth) / 2 + 5}
+                    y={height + 50}>
+                    {xAxisLabels[idx]}
+                  </Text>
+                </React.Fragment>
               );
             })}
 
@@ -191,19 +195,18 @@ export default class BarGraph extends React.Component<BarGraphProperties> {
                 <Line
                   key={"line-" + idx}
                   stroke={lineColor}
-                  strokeWidth={1}
+                  strokeWidth={2}
                   strokeDasharray="0.8"
                   opacity={lineOpacity}
                   x1={0}
                   y1={y}
-                  x2={width}
+                  x2={1000}
                   y2={y}
                 />
               );
             })}
           </Svg>
-        </View>
-        {xAxisLabels && <GraphXAxis data={xAxisLabels} />}
+        </ScrollView>
       </View>
     );
   }

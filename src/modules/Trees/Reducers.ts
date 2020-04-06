@@ -1,22 +1,18 @@
 import Types from "./Types";
 
 import { BarType, BoroughType } from "./TreeModel";
-export class TreeData {
-  loading: boolean = false;
-  showStatus: boolean = false;
+const initialState = {
+  loading: false,
+  showStatus: false,
   data: {
-    yAxisValues: number[];
-    status: BarType[];
-    xAxisLabels: string[];
-  } = {
     yAxisValues: [],
     status: [],
     xAxisLabels: [],
-  };
-  selectedFilter: BoroughType = "Queens";
-}
+  },
+  selectedFilter: "None",
+};
 
-export default function (state = TreeData, action: any) {
+export default function (state = initialState, action: any) {
   switch (action.type) {
     case Types.TREE_SHOW_STATUS_TOGGLER:
       return {
@@ -47,6 +43,6 @@ export default function (state = TreeData, action: any) {
       };
     }
     default:
-      return { state };
+      return state;
   }
 }
