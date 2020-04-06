@@ -198,7 +198,7 @@ export default class BarGraph extends React.Component<BarGraphProperties> {
                   key={"line-" + idx}
                   stroke={lineColor}
                   strokeWidth={2}
-                  strokeDasharray="0.8"
+                  strokeDasharray="0.5"
                   opacity={lineOpacity}
                   x1={0}
                   y1={y}
