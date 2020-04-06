@@ -1,5 +1,4 @@
 # NYC Tree Census 
-# Eight Sleep Assignment
 
 <H2>Components</H2>
 <H3>My Own Graph to display data</H3>
