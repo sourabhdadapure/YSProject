@@ -13,8 +13,19 @@ export default class App extends React.Component<AppProperties> {
     const { Colors } = UI;
     return (
       <View
-        style={{ paddingTop: 10, flexDirection: "row", alignItems: "center" }}>
-        <Text style={{ paddingRight: 10 }}>{title}</Text>
+        style={{
+          padding: 10,
+          flexDirection: "row",
+          alignItems: "center",
+        }}>
+        <Text
+          style={{
+            fontSize: 18,
+            paddingRight: 10,
+            color: Colors.Labels.White,
+          }}>
+          {title}
+        </Text>
         <Switch
           trackColor={{
             false: Colors.Buttons.White,

@@ -25,6 +25,7 @@ import { getTreeData, statusToggler, applyFilter } from "../modules/Trees";
 import { TreeData } from "../modules/Trees/Reducers";
 import { BarType, BoroughType } from "../modules/Trees/TreeModel";
 import Picker from "../components/Picker";
+import UI from "../ui";
 
 const width = Dimensions.get("screen").width;
 
@@ -49,8 +50,9 @@ export default class App extends React.Component<Props, TreeData> {
     const { data, showStatus, selectedFilter } = this.props.TreesData;
     const { statusToggler, applyFilter } = this.props;
     const { yAxisValues, xAxisLabels, status } = data;
+    const theme = UI.Colors;
     return (
-      <React.Fragment>
+      <View style={{ backgroundColor: theme.Background.Dark }}>
         <StatusBar barStyle="dark-content" />
         <SafeAreaView>
           <ScrollView
@@ -89,7 +91,7 @@ export default class App extends React.Component<Props, TreeData> {
             ]}
           />
         </SafeAreaView>
-      </React.Fragment>
+      </View>
     );
   }
 }

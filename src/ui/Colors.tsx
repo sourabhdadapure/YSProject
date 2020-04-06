@@ -3,6 +3,7 @@ export const Colors = {
     Picker: "#141414",
     Delete: "#ff0000",
     Card: "#19191c",
+    Dark: "#000000",
   },
   Buttons: {
     Primary: "#78CCFB",
