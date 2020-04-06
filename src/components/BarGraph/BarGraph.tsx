@@ -124,7 +124,7 @@ export default class BarGraph extends React.Component<BarGraphProperties> {
             min={minYAxis}
             data={yData}
           />
-          <Svg height={height + 70} width={width}>
+          <Svg height={height + 80} width={width}>
             <Pattern
               id="RangePattern"
               patternUnits="userSpaceOnUse"
