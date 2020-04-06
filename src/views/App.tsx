@@ -41,8 +41,8 @@ interface Props {
   applyFilter,
 })
 export default class App extends React.Component<Props, TreeData> {
-  async componentDidMount() {
-    await this.props.getTreeData();
+  componentDidMount() {
+    this.props.getTreeData();
   }
 
   render() {
