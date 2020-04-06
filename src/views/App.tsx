@@ -48,8 +48,7 @@ export default class App extends React.Component<Props, {}> {
     const { statusToggler, applyFilter } = this.props;
     const theme = UI.Colors;
     return (
-      <View
-        style={{ backgroundColor: theme.Background.Dark, paddingVertical: 10 }}>
+      <View style={{ flex: 1, backgroundColor: theme.Background.Dark }}>
         <StatusBar barStyle="dark-content" />
         <SafeAreaView>
           <Text
@@ -62,7 +61,7 @@ export default class App extends React.Component<Props, {}> {
           </Text>
           <BarGraph
             status={showStatus}
-            height={500}
+            height={450}
             width={width}
             yAxisValues={{
               values: data.yAxisValues,

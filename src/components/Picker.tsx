@@ -15,8 +15,15 @@ export default class App extends React.Component<AppProperties> {
     const theme = UI.Colors;
     return (
       <View>
+        <Text
+          style={{
+            textAlign: "center",
+            color: theme.Labels.White,
+          }}>
+          {title}
+        </Text>
         <Picker
-          style={{ backgroundColor: theme.Buttons.DarkGray }}
+          style={{ height: 0 }}
           itemStyle={{ color: theme.Labels.White }}
           selectedValue={selectedValue}
           onValueChange={(itemValue, itemIndex) => onChange(itemValue)}>
@@ -24,9 +31,6 @@ export default class App extends React.Component<AppProperties> {
             <Picker.Item key={idx} label={item} value={item} />
           ))}
         </Picker>
-        <Text style={{ textAlign: "center", color: theme.Labels.White }}>
-          {title}
-        </Text>
       </View>
     );
   }
