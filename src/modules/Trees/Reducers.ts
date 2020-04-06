@@ -9,11 +9,11 @@ export class TreeData {
     status: BarType[];
     xAxisLabels: string[];
   } = {
-    yAxisValues: [20, 30],
-    status: ["Fair", "Good"],
-    xAxisLabels: ["b", "q"],
+    yAxisValues: [],
+    status: [],
+    xAxisLabels: [],
   };
-  selectedFilter?: BoroughType;
+  selectedFilter: BoroughType = "Queens";
 }
 
 export default function (state = TreeData, action: any) {
@@ -34,6 +34,7 @@ export default function (state = TreeData, action: any) {
         ...state,
         loading: false,
         data: action.payload,
+        selectedFilter: action.payload.filter,
         error: undefined,
       };
     }
@@ -46,6 +47,6 @@ export default function (state = TreeData, action: any) {
       };
     }
     default:
-      return state;
+      return { state };
   }
 }

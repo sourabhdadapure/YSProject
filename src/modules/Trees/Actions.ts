@@ -27,21 +27,22 @@ export const statusToggler = (showStatus: boolean) => {
 export const applyFilter = (filter: BoroughType) => {
   return (dispatch: Dispatch) => {
     dispatch({ type: Types.TREE_DATA_LOADING });
-    const yAxisValues = Data.map(
-      (item) => (item.boroname = filter && item.census_tract)
+    const yAxisValues = Data.map((item) =>
+      item.boroname == filter ? item.census_tract : ""
     );
 
-    const status = Data.map(
-      (item) => (item.boroname = filter ? item.health : "0")
+    const status = Data.map((item) =>
+      item.boroname == filter ? item.health : ""
     );
-    const xAxisLabels = [filter];
+    const xAxisLabels = Data.map((item) =>
+      item.boroname == filter ? item.boroname : ""
+    );
     const payload = {
-      yAxisValues: [yAxisValues.reduce((a, b) => a + b)],
+      yAxisValues,
       status,
       xAxisLabels,
       filter,
     };
-    console.warn("YAxisValues", payload);
     dispatch({ type: Types.TREE_DATA_SUCCESS, payload });
   };
 };

@@ -48,6 +48,7 @@ export default class App extends React.Component<Props, TreeData> {
   render() {
     const { data, showStatus, selectedFilter } = this.props.TreesData;
     const { statusToggler, applyFilter } = this.props;
+    const { yAxisValues, xAxisLabels, status } = data;
     return (
       <React.Fragment>
         <StatusBar barStyle="dark-content" />
@@ -60,10 +61,10 @@ export default class App extends React.Component<Props, TreeData> {
               height={500}
               width={width - 40}
               yAxisValues={{
-                values:data&& data.yAxisValues,
-                type:data&& data.status,
+                values: yAxisValues,
+                type: status,
               }}
-              xAxisLabels={data.xAxisLabels}
+              xAxisLabels={xAxisLabels}
               verticalPadding={20}
             />
           </ScrollView>
@@ -72,11 +73,11 @@ export default class App extends React.Component<Props, TreeData> {
             title="Tree Health"
             onChange={() => statusToggler(showStatus)}
           />
+          {console.warn("blah", selectedFilter)}
           <Picker
             title="Filter By Boroughs"
             selectedValue={selectedFilter}
             onChange={(val) => {
-              console.warn(selectedFilter);
               applyFilter(val);
             }}
             pickerItems={[
