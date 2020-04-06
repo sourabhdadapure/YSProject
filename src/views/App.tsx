@@ -14,15 +14,18 @@ import {
 } from "react-native";
 
 import { Colors } from "react-native/Libraries/NewAppScreen";
-import BarGraph from "../components/BarGraph";
-import Switch from "../components/Switch";
+import { BarGraph, Switch, Picker, GraphDescriptor } from "../components";
 import { Provider, connect } from "react-redux";
-import { getTreeData, statusToggler, applyFilter } from "../modules/Trees";
+import {
+  getTreeData,
+  statusToggler,
+  applyFilter,
+  BarType,
+  BoroughType,
+} from "../modules/Trees";
 import { TreesDataModel } from "../modules/Trees/Reducers";
-import { BarType, BoroughType } from "../modules/Trees/TreeModel";
-import Picker from "../components/Picker";
+import {} from "../modules/Trees";
 import UI from "../ui";
-import GraphDescriptor from "../components/BarGraph/GraphDescriptor";
 
 const width = Dimensions.get("screen").width;
 

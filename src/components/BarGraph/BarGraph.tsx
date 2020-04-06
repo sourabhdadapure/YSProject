@@ -6,7 +6,7 @@ import {
   ScrollView,
 } from "react-native";
 import Svg, { Circle, Rect, Pattern, Line, Path, Text } from "react-native-svg";
-import { BarType } from "../../modules/Trees/TreeModel";
+import { BarType } from "../../modules/Trees";
 import YAxisLabels from "./YAxisLabels";
 import Graph from "./Graph";
 import UI from "../../ui";
