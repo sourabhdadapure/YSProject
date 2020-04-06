@@ -28,7 +28,7 @@ export const statusToggler = (showStatus: boolean) => {
   };
 };
 
-export const applyFilter = (filter: BoroughType) => {
+export const applyFilter = (filter: BoroughType | "None") => {
   return (dispatch: Dispatch) => {
     dispatch({ type: Types.TREE_DATA_LOADING });
     const yAxisValues = Data.map((item) =>
