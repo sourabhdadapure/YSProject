@@ -1,13 +1,26 @@
+//Reducer
 import Types from "./Types";
 
 import { BarType, BoroughType } from "./TreeModel";
-const initialState = {
+
+export type TreesDataModel = {
+  loading: boolean;
+  showStatus: boolean;
+  data: {
+    yAxisValues: number[];
+    status: BarType[];
+    xAxisLabels: string[];
+  };
+  selectedFilter: BoroughType | "None";
+};
+
+export const initialState: TreesDataModel = {
   loading: false,
   showStatus: false,
   data: {
-    yAxisValues: [],
-    status: [],
-    xAxisLabels: [],
+    yAxisValues: [20],
+    status: ["Good" as "Good" | "Fair"],
+    xAxisLabels: ["Lbl"],
   },
   selectedFilter: "None",
 };

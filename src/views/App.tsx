@@ -1,9 +1,5 @@
 /**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
+App
  */
 
 import * as React from "react";
@@ -22,7 +18,7 @@ import BarGraph from "../components/BarGraph";
 import Switch from "../components/Switch";
 import { Provider, connect } from "react-redux";
 import { getTreeData, statusToggler, applyFilter } from "../modules/Trees";
-import { TreeData } from "../modules/Trees/Reducers";
+import { TreesDataModel } from "../modules/Trees/Reducers";
 import { BarType, BoroughType } from "../modules/Trees/TreeModel";
 import Picker from "../components/Picker";
 import UI from "../ui";
@@ -34,15 +30,15 @@ interface Props {
   getTreeData(): void;
   applyFilter(selectedFilter: BoroughType): void;
   statusToggler(status: boolean): void;
-  TreesData: TreeData;
+  TreesData: TreesDataModel;
 }
 
-@connect((state) => ({ TreesData: state.TreesData, applyFilter }), {
+@(connect((state: TreesDataModel) => state, {
   getTreeData,
   statusToggler,
   applyFilter,
-})
-export default class App extends React.Component<Props, TreeData> {
+}) as any)
+export default class App extends React.Component<Props, {}> {
   componentDidMount() {
     this.props.getTreeData();
   }
@@ -50,7 +46,6 @@ export default class App extends React.Component<Props, TreeData> {
   render() {
     const { data, showStatus, selectedFilter } = this.props.TreesData;
     const { statusToggler, applyFilter } = this.props;
-    const { yAxisValues, xAxisLabels, status } = data;
     const theme = UI.Colors;
     return (
       <View style={{ backgroundColor: theme.Background.Dark }}>
@@ -61,10 +56,10 @@ export default class App extends React.Component<Props, TreeData> {
             height={500}
             width={width}
             yAxisValues={{
-              values: yAxisValues,
-              type: status,
+              values: data.yAxisValues,
+              type: data.status,
             }}
-            xAxisLabels={xAxisLabels}
+            xAxisLabels={data.xAxisLabels}
             verticalPadding={20}
           />
           <View
