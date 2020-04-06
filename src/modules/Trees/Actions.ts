@@ -32,14 +32,16 @@ export const applyFilter = (filter: BoroughType) => {
   return (dispatch: Dispatch) => {
     dispatch({ type: Types.TREE_DATA_LOADING });
     const yAxisValues = Data.map((item) =>
-      item.boroname == filter ? item.census_tract : 0
+      item.boroname == filter && item.census_tract
+        ? parseInt(item.census_tract)
+        : 0
     );
 
     const status = Data.map((item) =>
-      item.boroname == filter ? item.health : 0
+      item.boroname == filter ? item.health : ""
     );
     const xAxisLabels = Data.map((item) =>
-      item.boroname == filter ? item.boroname : 0
+      item.boroname == filter ? item.boroname : ""
     );
     const payload = {
       yAxisValues,

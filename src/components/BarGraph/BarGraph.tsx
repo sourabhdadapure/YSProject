@@ -10,7 +10,6 @@ import { BarType } from "../../modules/Trees/TreeModel";
 import YAxisLabels from "./YAxisLabels";
 import Graph from "./Graph";
 import UI from "../../ui";
-import GraphXAxis from "./XAxisLabels";
 import Utils from "../../utils";
 
 export interface BarGraphYData {
@@ -76,11 +75,10 @@ export default class BarGraph extends React.Component<BarGraphProperties> {
     const pad = verticalPadding !== undefined ? this.props.verticalPadding : 5;
     const height = this.props.height - pad * 2;
     const yTotal = maxYAxis - minYAxis;
-    const xStepSize = 10;
-    console.warn(xStepSize);
+    const xStepSize = 25;
     const lineColor = "blue"; //TODO: update later
     const lineOpacity = 0.5;
-    const barWidth = 3;
+    const barWidth = 5;
     let svgPath;
     let graph = new Graph();
     let points: Point[] = [];
@@ -115,23 +113,24 @@ export default class BarGraph extends React.Component<BarGraphProperties> {
     }
 
     return (
-      <ScrollView
-        horizontal
-        style={{
-          flex: 1,
-          backgroundColor: "grey",
-          width: 600,
-          paddingRight: 200,
-        }}>
-        <View style={{ flexDirection: "row" }}>
-          <YAxisLabels
-            width={40}
-            height={height + 30}
-            verticalPadding={10}
-            max={maxYAxis}
-            min={minYAxis}
-            data={yData}
-          />
+      <View
+        style={{ flexDirection: "row", width: 600, backgroundColor: "grey" }}>
+        <YAxisLabels
+          width={40}
+          height={height + 30}
+          verticalPadding={10}
+          max={maxYAxis}
+          min={minYAxis}
+          data={yData}
+        />
+        <ScrollView
+          horizontal
+          stickyHeaderIndices={[0]}
+          style={{
+            flex: 1,
+
+            paddingRight: 200,
+          }}>
           <Svg height={height + 80} width={width + 500}>
             <Pattern
               id="RangePattern"
@@ -139,30 +138,11 @@ export default class BarGraph extends React.Component<BarGraphProperties> {
               x="-10"
               y="-10"
               width="10"
-              height="10">
-              {/* {svgPath && (
-                <Path
-                  stroke="yellow" //TODO: update later
-                  opacity={1}
-                  strokeWidth={1.5}
-                  fill="transparent"
-                  d={svgPath}
-                />
-              )} */}
-            </Pattern>
+              height="10"></Pattern>
             {yAxisValues.values.map((item, idx) => {
               const h = Math.max((item - minYAxis) / yTotal, 0.01);
               const y = pad + (1 - h) * height;
               return (
-                // <Circle
-                //   key={"bar-" + idx}
-                //   x={idx * xStepSize + (xStepSize - barWidth) / 2}
-                //   y={y}
-                //   r={barWidth}
-                //   stroke="orange" //TODO: update later
-                //   strokeWidth={2}
-                //   fill="pink" //TODO: update later
-                // />
                 <React.Fragment key={idx}>
                   <Rect
                     x={idx * xStepSize + (xStepSize - barWidth) / 2}
@@ -183,11 +163,11 @@ export default class BarGraph extends React.Component<BarGraphProperties> {
                     fontWeight="bold"
                     textAnchor="middle"
                     transform={{
-                      rotation: -90,
-                      originX: idx * xStepSize + (xStepSize - barWidth) / 2,
+                      rotation: -70,
+                      originX: idx * xStepSize + (xStepSize - barWidth) / 2 + 5,
                       originY: height + 50,
                     }}
-                    x={idx * xStepSize + (xStepSize - barWidth) / 2}
+                    x={idx * xStepSize + (xStepSize - barWidth) / 2 + 5}
                     y={height + 50}>
                     {xAxisLabels[idx]}
                   </Text>
@@ -215,19 +195,19 @@ export default class BarGraph extends React.Component<BarGraphProperties> {
                 <Line
                   key={"line-" + idx}
                   stroke={lineColor}
-                  strokeWidth={1}
+                  strokeWidth={2}
                   strokeDasharray="0.8"
                   opacity={lineOpacity}
                   x1={0}
                   y1={y}
-                  x2={width}
+                  x2={1000}
                   y2={y}
                 />
               );
             })}
           </Svg>
-        </View>
-      </ScrollView>
+        </ScrollView>
+      </View>
     );
   }
   private getColorFromType(type: BarType) {
