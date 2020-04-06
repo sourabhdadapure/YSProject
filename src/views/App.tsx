@@ -73,7 +73,6 @@ export default class App extends React.Component<Props, TreeData> {
             title="Tree Health"
             onChange={() => statusToggler(showStatus)}
           />
-          {console.warn("blah", selectedFilter)}
           <Picker
             title="Filter By Boroughs"
             selectedValue={selectedFilter}
