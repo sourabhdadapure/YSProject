@@ -26,6 +26,7 @@ import { TreeData } from "../modules/Trees/Reducers";
 import { BarType, BoroughType } from "../modules/Trees/TreeModel";
 import Picker from "../components/Picker";
 import UI from "../ui";
+import GraphDescriptor from "../components/BarGraph/GraphDescriptor";
 
 const width = Dimensions.get("screen").width;
 
@@ -70,11 +71,26 @@ export default class App extends React.Component<Props, TreeData> {
               verticalPadding={20}
             />
           </ScrollView>
-          <Switch
-            status={showStatus}
-            title="Tree Health"
-            onChange={() => statusToggler(showStatus)}
-          />
+          <View
+            style={{
+              flexDirection: "row",
+              alignSelf: "center",
+              marginHorizontal: 10,
+            }}>
+            <Switch
+              status={showStatus}
+              title="Tree Health"
+              onChange={() => statusToggler(showStatus)}
+            />
+            {showStatus && (
+              <GraphDescriptor
+                descriptors={[
+                  { text: "Good", colorCode: theme.Status.Good },
+                  { text: "Fair", colorCode: theme.Status.Fair },
+                ]}
+              />
+            )}
+          </View>
           <Picker
             title="Filter By Boroughs"
             selectedValue={selectedFilter}

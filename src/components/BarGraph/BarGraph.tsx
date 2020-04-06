@@ -132,7 +132,6 @@ export default class BarGraph extends React.Component<BarGraphProperties> {
           stickyHeaderIndices={[0]}
           style={{
             flex: 1,
-
             paddingRight: 200,
           }}>
           <Svg height={height + 80} width={width + 500}>
