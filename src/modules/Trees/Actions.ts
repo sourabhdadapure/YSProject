@@ -6,9 +6,13 @@ import { TreeDataItem, BoroughType } from "./TreeModel";
 export const getTreeData = () => {
   return (dispatch: Dispatch) => {
     dispatch({ type: Types.TREE_DATA_LOADING });
-    const yAxisValues = Data.map((item) => item.census_tract);
-    const status = Data.map((item) => item.health);
-    const xAxisLabels = Data.map((item) => item.boroname);
+    const yAxisValues = Data.map((item) =>
+      item.census_tract && parseInt(item.census_tract) > 10000
+        ? 1000
+        : item.census_tract || 0
+    );
+    const status = Data.map((item) => item.health || 0);
+    const xAxisLabels = Data.map((item) => item.boroname || 0);
     const payload = {
       yAxisValues,
       status,
@@ -28,14 +32,14 @@ export const applyFilter = (filter: BoroughType) => {
   return (dispatch: Dispatch) => {
     dispatch({ type: Types.TREE_DATA_LOADING });
     const yAxisValues = Data.map((item) =>
-      item.boroname == filter ? item.census_tract : ""
+      item.boroname == filter ? item.census_tract : 0
     );
 
     const status = Data.map((item) =>
-      item.boroname == filter ? item.health : ""
+      item.boroname == filter ? item.health : 0
     );
     const xAxisLabels = Data.map((item) =>
-      item.boroname == filter ? item.boroname : ""
+      item.boroname == filter ? item.boroname : 0
     );
     const payload = {
       yAxisValues,

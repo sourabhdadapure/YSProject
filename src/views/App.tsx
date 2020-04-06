@@ -59,7 +59,7 @@ export default class App extends React.Component<Props, TreeData> {
             <BarGraph
               status={showStatus}
               height={500}
-              width={width - 40}
+              width={width}
               yAxisValues={{
                 values: yAxisValues,
                 type: status,

@@ -1,5 +1,10 @@
 import * as React from "react";
-import { View, ActionSheetIOS, ActivityIndicator } from "react-native";
+import {
+  View,
+  ActionSheetIOS,
+  ActivityIndicator,
+  ScrollView,
+} from "react-native";
 import Svg, { Circle, Rect, Pattern, Line, Path, Text } from "react-native-svg";
 import { BarType } from "../../modules/Trees/TreeModel";
 import YAxisLabels from "./YAxisLabels";
@@ -71,8 +76,8 @@ export default class BarGraph extends React.Component<BarGraphProperties> {
     const pad = verticalPadding !== undefined ? this.props.verticalPadding : 5;
     const height = this.props.height - pad * 2;
     const yTotal = maxYAxis - minYAxis;
-    const xStepSize = width / yAxisValues.values.length - 0.5;
-
+    const xStepSize = 10;
+    console.warn(xStepSize);
     const lineColor = "blue"; //TODO: update later
     const lineOpacity = 0.5;
     const barWidth = 3;
@@ -110,7 +115,14 @@ export default class BarGraph extends React.Component<BarGraphProperties> {
     }
 
     return (
-      <View style={{ flex: 1, backgroundColor: "grey" }}>
+      <ScrollView
+        horizontal
+        style={{
+          flex: 1,
+          backgroundColor: "grey",
+          width: 600,
+          paddingRight: 200,
+        }}>
         <View style={{ flexDirection: "row" }}>
           <YAxisLabels
             width={40}
@@ -120,7 +132,7 @@ export default class BarGraph extends React.Component<BarGraphProperties> {
             min={minYAxis}
             data={yData}
           />
-          <Svg height={height + 80} width={width}>
+          <Svg height={height + 80} width={width + 500}>
             <Pattern
               id="RangePattern"
               patternUnits="userSpaceOnUse"
@@ -167,11 +179,11 @@ export default class BarGraph extends React.Component<BarGraphProperties> {
                   <Text
                     fill="black"
                     stroke="none"
-                    fontSize="13"
+                    fontSize="10"
                     fontWeight="bold"
                     textAnchor="middle"
                     transform={{
-                      rotation: -60,
+                      rotation: -90,
                       originX: idx * xStepSize + (xStepSize - barWidth) / 2,
                       originY: height + 50,
                     }}
@@ -215,7 +227,7 @@ export default class BarGraph extends React.Component<BarGraphProperties> {
             })}
           </Svg>
         </View>
-      </View>
+      </ScrollView>
     );
   }
   private getColorFromType(type: BarType) {
