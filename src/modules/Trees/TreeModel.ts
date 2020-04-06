@@ -56,5 +56,3 @@ export type BoroughType =
   | "Manhattan";
 
 export type BarType = "Good" | "Fair";
-
-export const TreeDataSet: TreeDataItem[] = Data;

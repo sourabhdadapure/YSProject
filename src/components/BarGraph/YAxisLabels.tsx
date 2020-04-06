@@ -1,5 +1,6 @@
 import * as React from "react";
 import { View, ViewProperties, StyleProp, ViewStyle, Text } from "react-native";
+import UI from "../../ui";
 
 interface GraphYAxisData {
   label: string;
@@ -40,9 +41,10 @@ export default class GraphYAxis extends React.Component<GraphYAxisProperties> {
             <Text
               key={idx}
               style={{
+                color: UI.Colors.Labels.White,
                 position: "absolute",
                 left: 0,
-                bottom: y + verticalPadding - 8, //8 is half the font height
+                bottom: y + verticalPadding - 30,
                 width: width,
                 textAlign: "center",
               }}>

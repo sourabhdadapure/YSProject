@@ -76,8 +76,8 @@ export default class BarGraph extends React.Component<BarGraphProperties> {
     const height = this.props.height - pad * 2;
     const yTotal = maxYAxis - minYAxis;
     const xStepSize = 25;
-    const lineColor = "blue"; //TODO: update later
-    const lineOpacity = 0.5;
+    const lineColor = theme.Buttons.Blue; //TODO: update later
+    const lineOpacity = 0.8;
     const barWidth = 5;
     let svgPath;
     let graph = new Graph();
@@ -114,11 +114,15 @@ export default class BarGraph extends React.Component<BarGraphProperties> {
 
     return (
       <View
-        style={{ flexDirection: "row", width: 600, backgroundColor: "grey" }}>
+        style={{
+          flexDirection: "row",
+          width: 600,
+          backgroundColor: theme.Background.Dark,
+        }}>
         <YAxisLabels
           width={40}
-          height={height + 30}
-          verticalPadding={10}
+          height={height}
+          verticalPadding={0}
           max={maxYAxis}
           min={minYAxis}
           data={yData}
@@ -128,7 +132,6 @@ export default class BarGraph extends React.Component<BarGraphProperties> {
           stickyHeaderIndices={[0]}
           style={{
             flex: 1,
-
             paddingRight: 200,
           }}>
           <Svg height={height + 80} width={width + 500}>
@@ -157,10 +160,9 @@ export default class BarGraph extends React.Component<BarGraphProperties> {
                     }
                   />
                   <Text
-                    fill="black"
+                    fill={theme.Labels.White}
                     stroke="none"
                     fontSize="10"
-                    fontWeight="bold"
                     textAnchor="middle"
                     transform={{
                       rotation: -70,

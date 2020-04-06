@@ -1,9 +1,5 @@
 /**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
+App
  */
 
 import * as React from "react";
@@ -22,9 +18,11 @@ import BarGraph from "../components/BarGraph";
 import Switch from "../components/Switch";
 import { Provider, connect } from "react-redux";
 import { getTreeData, statusToggler, applyFilter } from "../modules/Trees";
-import { TreeData } from "../modules/Trees/Reducers";
+import { TreesDataModel } from "../modules/Trees/Reducers";
 import { BarType, BoroughType } from "../modules/Trees/TreeModel";
 import Picker from "../components/Picker";
+import UI from "../ui";
+import GraphDescriptor from "../components/BarGraph/GraphDescriptor";
 
 const width = Dimensions.get("screen").width;
 
@@ -32,15 +30,15 @@ interface Props {
   getTreeData(): void;
   applyFilter(selectedFilter: BoroughType): void;
   statusToggler(status: boolean): void;
-  TreesData: TreeData;
+  TreesData: TreesDataModel;
 }
 
-@connect((state) => ({ TreesData: state.TreesData, applyFilter }), {
+@(connect((state: TreesDataModel) => state, {
   getTreeData,
   statusToggler,
   applyFilter,
-})
-export default class App extends React.Component<Props, TreeData> {
+}) as any)
+export default class App extends React.Component<Props, {}> {
   componentDidMount() {
     this.props.getTreeData();
   }
@@ -48,31 +46,49 @@ export default class App extends React.Component<Props, TreeData> {
   render() {
     const { data, showStatus, selectedFilter } = this.props.TreesData;
     const { statusToggler, applyFilter } = this.props;
-    const { yAxisValues, xAxisLabels, status } = data;
+    const theme = UI.Colors;
     return (
-      <React.Fragment>
+      <View style={{ flex: 1, backgroundColor: theme.Background.Dark }}>
         <StatusBar barStyle="dark-content" />
         <SafeAreaView>
-          <ScrollView
-            contentInsetAdjustmentBehavior="automatic"
-            style={styles.scrollView}>
-            <BarGraph
-              status={showStatus}
-              height={500}
-              width={width}
-              yAxisValues={{
-                values: yAxisValues,
-                type: status,
-              }}
-              xAxisLabels={xAxisLabels}
-              verticalPadding={20}
-            />
-          </ScrollView>
-          <Switch
+          <Text
+            style={{
+              fontSize: 15,
+              textAlign: "center",
+              color: theme.Labels.White,
+            }}>
+            NYC Trees Census
+          </Text>
+          <BarGraph
             status={showStatus}
-            title="Tree Health"
-            onChange={() => statusToggler(showStatus)}
+            height={450}
+            width={width}
+            yAxisValues={{
+              values: data.yAxisValues,
+              type: data.status,
+            }}
+            xAxisLabels={data.xAxisLabels}
+            verticalPadding={20}
           />
+          <View
+            style={{
+              flexDirection: "row",
+              marginHorizontal: 10,
+            }}>
+            <Switch
+              status={showStatus}
+              title="Health"
+              onChange={() => statusToggler(showStatus)}
+            />
+            {showStatus && (
+              <GraphDescriptor
+                descriptors={[
+                  { text: "Good", colorCode: theme.Status.Good },
+                  { text: "Fair", colorCode: theme.Status.Fair },
+                ]}
+              />
+            )}
+          </View>
           <Picker
             title="Filter By Boroughs"
             selectedValue={selectedFilter}
@@ -89,7 +105,7 @@ export default class App extends React.Component<Props, TreeData> {
             ]}
           />
         </SafeAreaView>
-      </React.Fragment>
+      </View>
     );
   }
 }

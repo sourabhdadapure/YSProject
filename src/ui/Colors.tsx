@@ -3,6 +3,7 @@ export const Colors = {
     Picker: "#141414",
     Delete: "#ff0000",
     Card: "#19191c",
+    Dark: "#000000",
   },
   Buttons: {
     Primary: "#78CCFB",
@@ -21,8 +22,8 @@ export const Colors = {
     Blue: "#5289fe",
   },
   Status: {
-    Fair: "#5289fe",
-    Good: "#59AF4F",
+    Fair: "#FFC828",
+    Good: "#00FFDC",
   },
   Labels: {
     White: "#ffffff",
