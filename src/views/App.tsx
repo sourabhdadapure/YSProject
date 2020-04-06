@@ -48,9 +48,18 @@ export default class App extends React.Component<Props, {}> {
     const { statusToggler, applyFilter } = this.props;
     const theme = UI.Colors;
     return (
-      <View style={{ backgroundColor: theme.Background.Dark }}>
+      <View
+        style={{ backgroundColor: theme.Background.Dark, paddingVertical: 10 }}>
         <StatusBar barStyle="dark-content" />
         <SafeAreaView>
+          <Text
+            style={{
+              fontSize: 15,
+              textAlign: "center",
+              color: theme.Labels.White,
+            }}>
+            NYC Trees Census
+          </Text>
           <BarGraph
             status={showStatus}
             height={500}
@@ -69,7 +78,7 @@ export default class App extends React.Component<Props, {}> {
             }}>
             <Switch
               status={showStatus}
-              title="Tree Health"
+              title="Health"
               onChange={() => statusToggler(showStatus)}
             />
             {showStatus && (

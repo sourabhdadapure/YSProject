@@ -22,8 +22,8 @@ export const Colors = {
     Blue: "#5289fe",
   },
   Status: {
-    Fair: "#5289fe",
-    Good: "#59AF4F",
+    Fair: "#FFC828",
+    Good: "#00FFDC",
   },
   Labels: {
     White: "#ffffff",
