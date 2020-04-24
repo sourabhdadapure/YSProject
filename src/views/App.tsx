@@ -26,6 +26,7 @@ import {
 import { TreesDataModel } from "../modules/Trees/Reducers";
 import {} from "../modules/Trees";
 import UI from "../ui";
+import Slider from "../components/Slider";
 
 const width = Dimensions.get("screen").width;
 
@@ -62,17 +63,7 @@ export default class App extends React.Component<Props, {}> {
             }}>
             NYC Trees Census
           </Text>
-          <BarGraph
-            status={showStatus}
-            height={450}
-            width={width}
-            yAxisValues={{
-              values: data.yAxisValues,
-              type: data.status,
-            }}
-            xAxisLabels={data.xAxisLabels}
-            verticalPadding={20}
-          />
+
           <View
             style={{
               flexDirection: "row",
@@ -83,6 +74,7 @@ export default class App extends React.Component<Props, {}> {
               title="Health"
               onChange={() => statusToggler(showStatus)}
             />
+
             {showStatus && (
               <GraphDescriptor
                 descriptors={[
@@ -92,20 +84,13 @@ export default class App extends React.Component<Props, {}> {
               />
             )}
           </View>
-          <Picker
-            title="Filter By Boroughs"
-            selectedValue={selectedFilter}
-            onChange={(val) => {
-              applyFilter(val);
-            }}
-            pickerItems={[
-              "None",
-              "Queens",
-              "Brooklyn",
-              "The Bronx",
-              "Staten Island",
-              "Manhattan",
-            ]}
+          <Slider
+            min={-100}
+            max={100}
+            initialPosition={0}
+            sliderHeight={300}
+            circleSize={25}
+            onChange={() => {}}
           />
         </SafeAreaView>
       </View>

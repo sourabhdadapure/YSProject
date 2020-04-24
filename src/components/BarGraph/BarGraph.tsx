@@ -116,7 +116,7 @@ export default class BarGraph extends React.Component<BarGraphProperties> {
       <View
         style={{
           flexDirection: "row",
-          width: 600,
+          width: yAxisValues.values.length * 0.9,
           backgroundColor: theme.Background.Dark,
         }}>
         <YAxisLabels
@@ -129,12 +129,14 @@ export default class BarGraph extends React.Component<BarGraphProperties> {
         />
         <ScrollView
           horizontal
-          stickyHeaderIndices={[0]}
+          alwaysBounceHorizontal
           style={{
             flex: 1,
-            paddingRight: 200,
+            marginRight: yAxisValues.values.length * 0.5,
           }}>
-          <Svg height={height + 80} width={width + 500}>
+          <Svg
+            height={height + 80}
+            width={width + yAxisValues.values.length * 0.5}>
             <Pattern
               id="RangePattern"
               patternUnits="userSpaceOnUse"
